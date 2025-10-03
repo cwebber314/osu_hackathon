@@ -1,0 +1,15 @@
+Case info. by Dr.Birchfield and Jongoh Baek
+- Transmission network by Dr.Birchfield.
+- Dynamic models by Jongoh Baek. 
+
+Conventional generators:
+  1) Machine model: 36 GENROU
+  2) Exciter model: 36 Static models are used. 6 ESST1A / 16 ESST4B / 6 EXST1 / 8 IEEET1
+  3) Governor model: 24 GGOV1 for distillate fuel oil generators / 12 IEEEG1 for biomass liquid generators
+  4) Stabilizer model: 16 IEEEST (Tuned)
+Renewable generators:
+- The simplest expression for renewable dynamics is used. (REGC/REEC/REPC)
+- The simplest control options are used.
+
+If you have a question about the dynamic models, feel free to contact me. 
+jongoh@tamu.edu
