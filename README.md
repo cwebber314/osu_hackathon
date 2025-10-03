@@ -2,5 +2,5 @@
 
 ## References
 
-Southwire datasheet for ACSR [link](# https://www.southwire.com/wire-cable/bare-aluminum-overhead-transmission-distribution/acsr/p/ALBARE6
+Southwire datasheet for ACSR [link](https://www.southwire.com/wire-cable/bare-aluminum-overhead-transmission-distribution/acsr/p/ALBARE6
 )
