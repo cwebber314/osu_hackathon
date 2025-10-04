@@ -56,6 +56,11 @@ print(f"{rating_mva:.0f}") # 215 MVA
 
 ## References
 
+<<<<<<< HEAD
 Southwire datasheet for ACSR [link](# https://www.southwire.com/wire-cable/bare-aluminum-overhead-transmission-distribution/acsr/p/ALBARE6)
 
 IEEE738
+=======
+Southwire datasheet for ACSR [link](https://www.southwire.com/wire-cable/bare-aluminum-overhead-transmission-distribution/acsr/p/ALBARE6
+)
+>>>>>>> 35a4fd742556f9d05022afb8aa94c01d81d0ff87
