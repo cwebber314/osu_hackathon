@@ -1,3 +1,24 @@
+"""Example of how to perform a couple ratings calculations.
+
+Use: 
+
+    python example.py
+
+Output:
+
+    rating for 336.4 Oriole at 75C | 532 Amps
+    rating for 336.4 Oriole at 75C | 64 MVA at 69 kV
+    rating for 336.4 Oriole at 75C | 127 MVA at 138 kV
+
+    rating for 795 Drake at 75C | 903 Amps
+    rating for 795 Drake at 75C | 108 MVA at 69 kV
+    rating for 795 Drake at 75C | 216 MVA at 138 kV
+
+    rating for 1590 Falcon at 75C | 1349 Amps
+    rating for 1590 Falcon at 75C | 161 MVA at 69 kV
+    rating for 1590 Falcon at 75C | 322 MVA at 138 kV
+
+"""
 import ieee738
 from ieee738 import ConductorParams
 import logging
