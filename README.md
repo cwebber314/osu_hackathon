@@ -23,9 +23,11 @@ You can view the case data in the PowerWorld Viewer - which is helpful to visual
 The original data is provided in the `hawaii40\` folder.
 
 We've exported the synthetic grid to a set of CSV and JSON files which are eaier to consume. 
+For this project, the model has been slightly changed from the original:
+- Overhead conductor and max operating temperature associated with each line
+- Ratings re-calculated based the overhead conductor
 
-File | Description
------|--------------------------------
+The ratings are close to the original rating 
 
 ## IEEE-738 Overhead conductor ratings
 
@@ -56,11 +58,5 @@ print(f"{rating_mva:.0f}") # 215 MVA
 
 ## References
 
-<<<<<<< HEAD
-Southwire datasheet for ACSR [link](# https://www.southwire.com/wire-cable/bare-aluminum-overhead-transmission-distribution/acsr/p/ALBARE6)
-
-IEEE738
-=======
-Southwire datasheet for ACSR [link](https://www.southwire.com/wire-cable/bare-aluminum-overhead-transmission-distribution/acsr/p/ALBARE6
-)
->>>>>>> 35a4fd742556f9d05022afb8aa94c01d81d0ff87
+- Southwire datasheet for ACSR [link](# https://www.southwire.com/wire-cable/bare-aluminum-overhead-transmission-distribution/acsr/p/ALBARE6)
+- [IEEE738](ieee738/ieee738-2006.pdf)
