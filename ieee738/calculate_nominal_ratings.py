@@ -1,4 +1,6 @@
-"""Calcualte the nominal ratings of all the conductors in the conductor_library.csv 
+"""Calcualte the nominal ratings of all the conductors in the conductor_library.csv
+Create the output file conductor_ratings.csv
+
 I'm using this to infer the conductor from the existing case rating 
 """
 import ieee738
