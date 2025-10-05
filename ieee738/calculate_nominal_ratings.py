@@ -1,4 +1,5 @@
 """Calcualte the nominal ratings of all the conductors in the conductor_library.csv 
+I'm using this to infer the conductor from the existing case rating 
 """
 import ieee738
 import pandas as pd
