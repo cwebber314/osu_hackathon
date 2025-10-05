@@ -56,7 +56,23 @@ rating_mva = 3**0.5 * rating_amps * V * 1e-6
 print(f"{rating_mva:.0f}") # 215 MVA
 ```
 
+## Daily Load profiles
+
+Daily Load follows roughly a sine wave with a 6pm peak and 3am valley. Assume ~30% swing from min to max - eg 700 MW min, 1000 MW max.
+Load also changes based on weather. For example, in the summer hotter days have higher load. This project doesn't provide a relationship
+or data between ambient temperature and load - this analysis may ignore the relationship or make a guess like 
+"no load change between 15C - 25C and 1% load increase per degree between 25C - 40C"
+
+For this project we've provided 3 load/gen profiles:
+- nominal: origial values from model
+- min: 15% lower than nominal
+- max: 15% higher than nominal
+
+Note that as load scales up and down, the generation must also scale up and down otherwise the the model won't converge and just 
+doesn't make sense. The slack buses in the model allow for small mismatches between load and gen.
+
 ## References
 
 - Southwire datasheet for ACSR [link](# https://www.southwire.com/wire-cable/bare-aluminum-overhead-transmission-distribution/acsr/p/ALBARE6)
 - [IEEE738](ieee738/ieee738-2006.pdf)
+- [SPP Price Countour Map](https://pricecontourmap.spp.org/pricecontourmap/) - contains daily load graphs   

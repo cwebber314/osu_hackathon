@@ -44,6 +44,7 @@ for i, row in df.iterrows():
     # Please forgive the mixed CamelCase and snake_case - some of this data comes from another 
     # system with differen naming conventions
     ratings.append({'ConductorName': row.ConductorName, 
+                    'MOT': row.MOT,
                     'RatingAmps': int(rating_amps),
                     'RatingMVA_69': int(rating_mva_69),
                     'RatingMVA_138': int(rating_mva_138)})

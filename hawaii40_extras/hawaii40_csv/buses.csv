@@ -1,4 +1,4 @@
-name,v_nom,x,y,v_mag_pu_set,v_mag_pu_min,v_mag_pu_max,control,Pd,Qd,Gs,Bs,area,v_ang_set,zone,name2
+name,v_nom,x,y,v_mag_pu_set,v_mag_pu_min,v_mag_pu_max,control,Pd,Qd,Gs,Bs,area,v_ang_set,zone,BusName
 1,138.0,-157.939889,21.344246,0.9935453,0.9,1.1,PQ,0.0,0.0,0.0,0.0,1.0,-1.119907,1.0,ALOHA138
 2,69.0,-157.939889,21.344246,1.0,0.9,1.1,PV,60.7,0.0,0.0,0.0,1.0,-3.927372,1.0,ALOHA69
 3,69.0,-157.876274,21.347927,0.9845477,0.9,1.1,PQ,59.39,0.0,0.0,0.0,1.0,-4.731145,1.0,FLOWER69
