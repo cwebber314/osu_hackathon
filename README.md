@@ -5,9 +5,16 @@
 You should have a recent version of python to run the ieee738 kernel and other reference code.
 We used Python 3.12, but any recent version will do. 
 
-Python libraries:
+Install the python libraries:
 ```sh
-pip install pandas jupyterlab pypsa
+pip install pandas jupyterlab pypsa pydantic
+```
+
+Or if you go the virtualenv route:
+```sh
+python -m venv .venv
+.venv/scripts/activate
+pip install -r requirements.txt
 ```
 
 Other optional tools:
@@ -25,9 +32,14 @@ The original data is provided in the `hawaii40\` folder.
 We've exported the synthetic grid to a set of CSV and JSON files which are eaier to consume. 
 For this project, the model has been slightly changed from the original:
 - Overhead conductor and max operating temperature associated with each line
-- Ratings re-calculated based the overhead conductor
+- Ratings re-calculated based the overhead conductor. The new ratings are close to the original rating.
 
-The ratings are close to the original rating 
+Note that the coordinates for the transmission lines do not match the physical line routes. 
+
+Screenshots:
+- [Screenshot of the case in Powerworld](./hawaii40_powerworld.png)
+- [Screenshot of the case in GIS tools](./hawaii40_gis.png)
+
 
 ## IEEE-738 Overhead conductor ratings
 

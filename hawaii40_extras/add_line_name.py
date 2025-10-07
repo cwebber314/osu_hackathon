@@ -1,7 +1,7 @@
 """Add Unique Line Name (eg L20) to lines geojson 
 
 Input geojson file: gis\oneline_lines_noname.geojson
-Input name <-> LineName mapping: hawaii40_csv\lines.csv
+Input name <-> LineName mapping: csv\lines.csv
 
 Output file: gis\oneline_lines.geojson
 """
@@ -10,7 +10,7 @@ import pandas as pd
 import os.path as osp
 import pdb
 
-df = pd.read_csv(osp.join('hawaii40_csv', 'lines.csv'))
+df = pd.read_csv(osp.join('csv', 'lines.csv'))
 
 geofn_in = osp.join('gis', 'oneline_lines_noname.geojson')
 with open(geofn_in, 'r') as f:
