@@ -130,18 +130,20 @@ of service, solve the case, and evaluate the overloads.
 
 Example output of a N-1 contingencies analysis
 
-> For loss of "ALOHA138 TO HONOLULU138 CKT 1"
->
-> Ratings Issues:
-> "ALOHA138 TO HONOLULU138 CKT 2" 95% 
->
->
-> For loss of "FLOWER69 TO HONOLULU69  CKT 1"
->
-> Ratings Issues:
-> "FLOWER69 TO HONOLULU69  CKT 2" 92% 
-> "SURF69 TO TURTLE69 CKT 1" 84%
-> "SURF69 TO COCONUT69 CKT 1" 81%
+```
+For loss of "ALOHA138 TO HONOLULU138 CKT 1"
+
+Ratings Issues:
+"ALOHA138 TO HONOLULU138 CKT 2" 95% 
+
+
+For loss of "FLOWER69 TO HONOLULU69  CKT 1"
+
+Ratings Issues:
+"FLOWER69 TO HONOLULU69  CKT 2" 92% 
+"SURF69 TO TURTLE69 CKT 1" 84%
+"SURF69 TO COCONUT69 CKT 1" 81%
+```
 
 Running the contingency analysis requires a powerflow solver. Here are a couple open source options to 
 solve power-flow cases: 
