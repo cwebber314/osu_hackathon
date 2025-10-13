@@ -97,35 +97,66 @@ Folder          | Description
 
 The model shows the load under very normal conditions - none of the lines are overloaded.
 As environment conditions worsen (ie ambient temperature increases), the rating of lines
-will start to decrease. At some point lines will start to overload.  Questions to  
-answer:
-- at what point does everything fall apart?
-  - Ambient temp increase? Wind speed decrease
-- What gets overloaded first as ambient temperature increases
+will start to decrease. At some point lines will start to overload.  
+
+Questions to  answer:
+- At what point do lines start to overload? 
+  - Do things start to overload at ambient temps of 40C, 50C?
+  - What if the wind stops blowing?  
+- What lines get overloaded first as ambient temperature increases?
   - IRL we use these weakneses to decide what to improve. 
 - For a certain set of ambient conditions how stressed is the system?
-  - 90% danger
+  - 90% Critical
   - 60-90% caution
   - 0-60% Nominal  
 
-^ We want to visualize this data. Probably there's a geospatial component to the visulazion, 
-but maybe it's tabular, or maybe both. 
+How can we visualize this data?  There's probalby a geospatial component - we probably show the potential overloads 
+on a map. Keep in mind that our synthetic grid is much smaller than AEP transmission footprint in the Ohio region. 
+Ideally the visualization scales to view issues on 1000's of lines - so some sort of tabular view may be helpful.   
 
+### Bonus
 
-Bonus ideas (Chip):
-- ~~Load profiles through the day (too much work)~~
-- case solves, take outages (maybe, requires learning loadflow library)
-
-When we operate the grid we are always worried about what happens when loose a part of 
-a network.  Use the [pypsa](https://github.com/PyPSA/PyPSA) library or other powerflow engine like [pypower](https://github.com/rwl/PYPOWER) or [matpower](https://matpower.org/) 
-to evaluate what happens to the network when you lose a transmission line.  Which lines
-are the most important to the network? 
-
-AEP Operations always know if we lose "Line A" then "Line B, C" overload. 
-
+Overview:
 - The main challenge answers the question what is overloaded as ambient conditions change?
 - The bonus challenge answers the question what will be overloaded if we lose any line in the network. 
 
+The eletric transmission system is designed to survive the loss of any element - we call these N-1 contingencies.
+In our example system we see that in nominal conditions almost all the lines are loaded under 50%. 
+Ambient conditions have to get pretty bad before lines start to overload. 
+
+As we operate the grid we constantly monitor what will happen when we lose an transmission line.
+For example if we lose the line from "ALOHA138 TO  HONOLULU138 CKT 1" does anything overload? Is 
+anything close to overloading? 
+
+For a set of ambient conditions, you should evaluate the N-1 contingencies. Take each line out 
+of service, solve the case, and evaluate the overloads. 
+
+Example output of a N-1 contingencies analysis
+
+```
+For loss of "ALOHA138 TO HONOLULU138 CKT 1"
+
+Ratings Issues:
+"ALOHA138 TO HONOLULU138 CKT 2" 95% 
+
+
+For loss of "FLOWER69 TO HONOLULU69  CKT 1"
+
+Ratings Issues:
+"FLOWER69 TO HONOLULU69  CKT 2" 92% 
+"SURF69 TO TURTLE69 CKT 1" 84%
+"SURF69 TO COCONUT69 CKT 1" 81%
+```
+
+Running the contingency analysis requires a powerflow solver. Here are a couple open source options to 
+solve power-flow cases: 
+- [pypsa](https://github.com/PyPSA/PyPSA) - example contingency and case solve included.
+- [matpower](https://matpower.org/) - not tested requires matlab 
+- [pypower](https://github.com/rwl/PYPOWER) - python port of matpower not tested 
+
+Commercial tools like PSSE, PLSF, and PowerWorld can also be used to solve powerflow models, but
+have very limited options for free use and are typically cumbersome to integrate with another 
+applicaiton.
 
 ## References
 
