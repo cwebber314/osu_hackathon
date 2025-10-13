@@ -1,6 +1,6 @@
 # OSU Hackathon
 
-## Environment
+## Python Environment
 
 You should have a recent version of python to run the ieee738 kernel and other reference code.
 We used Python 3.12, but any recent version will do. 
@@ -26,10 +26,13 @@ Other optional tools:
 ## Hawaii Synthetic Grid
 
 The example system is taken from the Texas A&M [electric grid testcase](https://electricgrids.engr.tamu.edu/electric-grid-test-cases/). 
-You can view the case data in the PowerWorld Viewer - which is helpful to visualize the powerflows and explore the data.
-The original data is provided in the `hawaii40\` folder.
+The original data is provided in the `hawaii40\` folder. You can view the case data in the PowerWorld Viewer - which is helpful to visualize
+the powerflows and explore the data.
 
-We've exported the synthetic grid to a set of CSV and JSON files which are eaier to consume. 
+We've modifed and exported the grid to a set of CSV and JSON files which are eaier to consume.
+- `hawaii40_osu\csv`: Model data in CSV format.
+- `hawaii40_osu\gis`: 
+
 For this project, the model has been slightly changed from the original:
 - Overhead conductor and max operating temperature associated with each line
 - Ratings re-calculated based the overhead conductor. The new ratings are close to the original rating.

@@ -1,4 +1,6 @@
-"""Port of the MATPOWER/matlab hawaii40 m file to python/pypower
+"""Port of the MATPOWER/matlab hawaii40 m file to python/pypower.
+
+WARNING: The branches have been significantly modified 
 
 A PYPOWER case file is a Python file or MAT-file that defines or returns a dict named ppc, 
 referred to as a "PYPOWER case dict". The keys of this dict are baseMVA, bus, gen, branch, and (optional) gencost.

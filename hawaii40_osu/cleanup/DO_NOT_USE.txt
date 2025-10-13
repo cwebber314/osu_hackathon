@@ -1,0 +1,6 @@
+Do not run scripts in this directory unless you know what you're doing. 
+These scripts transform the original Hawaii40 model from Texas A&M. 
+However, some of the model changes like adding conductor and rating information
+was performed by hand. Some of these scripts are be destructive. 
+
+So why are these scripts still here? They are examples of how to read/write model data.

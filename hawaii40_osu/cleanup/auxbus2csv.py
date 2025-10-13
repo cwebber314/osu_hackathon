@@ -7,12 +7,12 @@ import os
 import io
 import pandas as pd
 
-fn = osp.join(os.pardir, 'hawaii40', 'Hawaii40_20231026.aux')
+fn = osp.join(os.pardir, os.pardir, 'hawaii40', 'Hawaii40_20231026.aux')
 with open(fn, "r") as f:
     text = f.read()
 
 pattern = r'^Bus\s*\s\((.*?)\)\s*{(.*?)}'
-mm = re.search(pattern, text, re.DOTALL | re.MULTILINE )
+mm = re.search(pattern, text, re.DOTALL | re.MULTILINE)
 
 # print(mm.groups()[0])
 # print(mm.groups()[1])
