@@ -7,7 +7,7 @@ We used Python 3.12, but any recent version will do.
 
 Install the python libraries:
 ```sh
-pip install pandas jupyterlab pypsa pydantic
+pip install pandas jupyterlab pypsa pydantic 
 ```
 
 Or if you go the virtualenv route:
@@ -162,4 +162,15 @@ applicaiton.
 
 - Southwire datasheet for ACSR [link](# https://www.southwire.com/wire-cable/bare-aluminum-overhead-transmission-distribution/acsr/p/ALBARE6)
 - [IEEE738](ieee738/ieee738-2006.pdf)
-- [SPP Price Countour Map](https://pricecontourmap.spp.org/pricecontourmap/) - contains daily load graphs   
+- [SPP Price Countour Map](https://pricecontourmap.spp.org/pricecontourmap/) - contains daily load graphs
+
+## Visualization Ideas
+
+A couple visualization examples:
+- Powerworld shows the loading with a pie chart on each line and colors the chart based on severity. [Powerworld Example](powerworld_line_capacity_example.png)
+- SPP shows congestion icons on a map and links it to table data. See the [screenshot](spp_lmp_example.png) or the live [website](https://pricecontourmap.spp.org/pricecontourmap/)
+  - NOTE: This app is very different than what we are doing, but it's a decent example of combining table and GIS data for the grid. 
+
+## PyPSA notes
+
+PyPSA just released 1.x - many of the docs aren't in great shape yet.
