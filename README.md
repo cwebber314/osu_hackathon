@@ -41,16 +41,36 @@ Keys:
 
 See `hawaii40_osu\line_flows_nominal.csv`
 
+Columns: 
+- `name`: Unique name of line
+- `p0_nominal`: Line flow in MVA 
+
+A lot of this project is based on comparing the rating of a line `s_nom` with the flow on the line `p0`, 
+let's take a quick look at what this compare looks like for the nominal data.
+
+From line_flows_nominal.csv:
+```csv
+name,p0_nominal
+L0,79.2
+L1,79.2
+L2,22.4
+```
+
 From lines.csv:
 ```csv
 name,s_nom
 L0,228
 L1,228
+L2,172
 ```
 
-From line_flows_nominal.csv:
-```
-```
+If we line up the flows and the rating we get a table that looks like this
+
+Line Name | flow (p0) | rating (s_nom) | Loading
+----------|-----------|----------------|----------
+L0        | 79.2      | 228            | 35%
+L1        | 79.2      | 228            | 35%
+L2        | 22.4      | 172            | 13%
 
 
 
