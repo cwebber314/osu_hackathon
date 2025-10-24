@@ -1,5 +1,59 @@
 # OSU Hackathon
 
+## Critical Data
+
+### Line Model 
+
+`hawaii40_osu\csv\lines.csv`
+
+Columns:
+- `name`: Unique name of the line - use this to match data between the the GIS data. PyPSA uses this as the index
+- `bus0`: Reference to bus. This is one endpoint of the line.  
+- `bus1`: Reference to bus. This is the other endpoint of the line
+- `s_nom`: Rating in MVA for the line. This is how much flow the line can handle before something bad happens.
+- `conductor`: Conductor used in the line. This is used to calculate the rating of the line `s_nom` 
+- `MOT`: Maximum Operating Temperature of the line. This is used to calculate the rating of the line `s_nom`  
+- `branch_name`: Readable name for the branch/line
+
+Note on kV: The nominal operating voltage is not included in the `lines.csv` file because it is a property of the bus.
+The psuedo-sql to get the the nomkv looks like this:
+
+```sql
+SELECT bus.v_nom AS nom_kv
+FROM lines
+INNER JOIN busses 
+  ON lines.bus0 = busses.name
+```
+
+Note that bus0 and bus1 have the same kV by definition for a line. 
+
+### Line GIS data
+
+See `hawaii40_osu\gis\oneline_lines.geojson`
+
+Keys:
+- `Features.properties.Name`: Reference to the `name` column in `lines.csv` - use this to connect the two data sets.
+- `Features.properties.BusNumFrom`: Same as `bus0` column in `lines.csv`
+- `Features.properties.BusNumTo`: Same as `bus1` column in `lines.csv` 
+
+
+### Nominal Line flows
+
+See `hawaii40_osu\line_flows_nominal.csv`
+
+From lines.csv:
+```csv
+name,s_nom
+L0,228
+L1,228
+```
+
+From line_flows_nominal.csv:
+```
+```
+
+
+
 ## Python Environment
 
 You should have a recent version of python to run the ieee738 kernel and other reference code.
@@ -71,21 +125,6 @@ rating_mva = 3**0.5 * rating_amps * V * 1e-6
 print(f"{rating_mva:.0f}") # 215 MVA
 ```
 
-## Daily Load profiles
-
-Daily Load follows roughly a sine wave with a 6pm peak and 3am valley. Assume ~30% swing from min to max - eg 700 MW min, 1000 MW max.
-Load also changes based on weather. For example, in the summer hotter days have higher load. This project doesn't provide a relationship
-or data between ambient temperature and load - this analysis may ignore the relationship or make a guess like 
-"no load change between 15C - 25C and 1% load increase per degree between 25C - 40C"
-
-For this project we've provided 3 load/gen profiles:
-- nominal: origial values from model
-- min: 15% lower than nominal
-- max: 15% higher than nominal
-
-Note that as load scales up and down, the generation must also scale up and down otherwise the the model won't converge and just 
-doesn't make sense. The slack buses in the model allow for small mismatches between load and gen.
-
 ## Files
 
 Folder          | Description
@@ -93,7 +132,7 @@ Folder          | Description
 `hawaii40\`     | Original model from Texas A&M. :warning: Reference only - do not use the ratings in this case
 `hawaii40_osu`  | Modified model for hackathon
 
-## Story
+## Story / Challenge
 
 The model shows the load under very normal conditions - none of the lines are overloaded.
 As environment conditions worsen (ie ambient temperature increases), the rating of lines
@@ -114,7 +153,7 @@ How can we visualize this data?  There's probalby a geospatial component - we pr
 on a map. Keep in mind that our synthetic grid is much smaller than AEP transmission footprint in the Ohio region. 
 Ideally the visualization scales to view issues on 1000's of lines - so some sort of tabular view may be helpful.   
 
-### Bonus
+### Contingencies (Bonus)
 
 Overview:
 - The main challenge answers the question what is overloaded as ambient conditions change?
@@ -157,6 +196,21 @@ solve power-flow cases:
 Commercial tools like PSSE, PLSF, and PowerWorld can also be used to solve powerflow models, but
 have very limited options for free use and are typically cumbersome to integrate with another 
 applicaiton.
+
+### Daily Load profiles (Bonus)
+
+Daily Load follows roughly a sine wave with a 6pm peak and 3am valley. Assume ~30% swing from min to max - eg 700 MW min, 1000 MW max.
+Load also changes based on weather. For example, in the summer hotter days have higher load. This project doesn't provide a relationship
+or data between ambient temperature and load - this analysis may ignore the relationship or make a guess like 
+"no load change between 15C - 25C and 1% load increase per degree between 25C - 40C"
+
+For this project we've provided 3 load/gen profiles:
+- nominal: origial values from model
+- min: 15% lower than nominal
+- max: 15% higher than nominal
+
+Note that as load scales up and down, the generation must also scale up and down otherwise the the model won't converge and just 
+doesn't make sense. The slack buses in the model allow for small mismatches between load and gen.
 
 ## References
 
