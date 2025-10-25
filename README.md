@@ -1,6 +1,6 @@
 # OSU Hackathon
 
-## Critical Data
+## Important Data
 
 ### Line Model 
 
@@ -104,8 +104,8 @@ The original data is provided in the `hawaii40\` folder. You can view the case d
 the powerflows and explore the data.
 
 We've modifed and exported the grid to a set of CSV and JSON files which are eaier to consume.
-- `hawaii40_osu\csv`: Model data in CSV format.
-- `hawaii40_osu\gis`: 
+- `hawaii40_osu\csv`: Model data in PyPSA compatible CSV format.
+- `hawaii40_osu\gis`: Export of lines to geoJSON. 
 
 For this project, the model has been slightly changed from the original:
 - Overhead conductor and max operating temperature associated with each line
@@ -122,8 +122,77 @@ Screenshots:
 The IEEE-738 standard calculates how much current can flow through an overhead line before it exceeds the
 maximum operating temperature (MOT) of the line. We call this the rating of the transmission line.  
 
+See the [iee738_primer](ieee738_primer.md) for a brief introduciton to the principle behind
+the calculation and line ratings.
+
 The rating of the line is based on conductor properties like resistance and the ambient conditions. For example, a high windspeed provides
 convective cooling and and allows more current to flow through the conductor before it reach it's maximum operating temperature.
+
+### Python ieee738 kernel
+
+See the `ieee738\example_ieee738.py` for several example calculations.
+
+Here is a minimal code sample:
+```py
+import ieee738
+from ieee738 import ConductorParams
+
+ambient_defaults = {
+    'Ta': 25,
+    'WindVelocity': 2.0, 
+    'WindAngleDeg': 90,
+    'SunTime': 12,
+    'Date': '12 Jun',
+    'Emissivity': 0.8,
+    'Absorptivity': 0.8,
+    'Direction': 'EastWest',
+    'Atmosphere': 'Clear',
+    'Elevation': 1000,
+    'Latitude': 27,
+    }
+MOT = 75 # Maximum operating temperature of conductor in deg C
+
+# -----------------------
+# 336.4 ACSR 30/7 ORIOLE
+# -----------------------
+# Resistance from mfg is in ohms/mi - conver to ohms/ft for the IEEE738 kernel
+acsr_falcon = {'TLo': 25, 'THi': 50, 'RLo': 0.2708/5280, 'RHi': 0.29740/5280, 
+              'Diameter': 0.3705*2, 'Tc': MOT}
+
+cp_oriole = ConductorParams(**ambient_defaults, **acsr_falcon)
+con = ieee738.Conductor(cp_oriole)
+rating_amps = con.steady_state_thermal_rating()
+```
+
+Environment Parameters:
+- `Ta`: Ambient temperature in degC
+- `WindVelocity`: Wind Velocity in ft/sec
+- `WindAngleDeg`: Wind Angle relative to the line. I like to keep this one constant because
+line route typically changes and the angle isn't meaningful.
+- `SunTime`: What hour of the day between 0-24 - determines solar heat gain
+- `Date`: Determines angle of the sun which determines solar heat gain
+- `MOT`: Maximum Operating Temperature of the line conductor in degC. This is called Tc (Temperature of Conductor in the IEEE738 spec)
+
+Parameters you may want to ignore:
+- `Emissivity`: Property of the conductor - doesn't vary with ambient comditions
+- `Absorptivity`: Property of the conductor - doesn't vary with ambient comditions
+- `Direction`: Constant - doesn't vary with ambient comditions
+- `Atmosphere`: Trivial Impact. We typically worst case of clear.
+- `Elevation`: Constant - doesn't vary with ambient comditions. Also I didn't include elevation data in the data. There may be room to do something clever and create a more general solution.  
+- `Latitude`: Trivial Impact across our region. If you include it in you solution it would be more applicable to networks in other locations.
+
+### Conductor Params
+
+See `ieee738\conductor_library.csv` for conductor properties needed for the calculation.
+
+Columns:
+- `ConductorName`: Name of the conductor. Exactly matches the conductor name in `lines.csv`
+- `RES_25C`: Resistance at 25C in Ohms/Mi
+- `RES_50C`: Resistance at 50C in Ohms/Mi
+- `CDRAD_IN`: Conductor radius in inches.
+- `CDGMR_ft`: NOT USED in the rating calculation.
+
+### Amps and MVA
 
 Even though ratings are calculated in Amps, they are usually converted to MVA which is more meaningful to engineers.
 Use the following equations to convert from Amps to 3-phase MVA:  
@@ -145,20 +214,15 @@ rating_mva = 3**0.5 * rating_amps * V * 1e-6
 print(f"{rating_mva:.0f}") # 215 MVA
 ```
 
-## Files
-
-Folder          | Description
-----------------|-----------------------------------------
-`hawaii40\`     | Original model from Texas A&M. :warning: Reference only - do not use the ratings in this case
-`hawaii40_osu`  | Modified model for hackathon
-
 ## Story / Challenge
+
+This section contains some of my notes on the challenge. 
 
 The model shows the load under very normal conditions - none of the lines are overloaded.
 As environment conditions worsen (ie ambient temperature increases), the rating of lines
 will start to decrease. At some point lines will start to overload.  
 
-Questions to  answer:
+Questions to answer:
 - At what point do lines start to overload? 
   - Do things start to overload at ambient temps of 40C, 50C?
   - What if the wind stops blowing?  
@@ -171,7 +235,7 @@ Questions to  answer:
 
 How can we visualize this data?  There's probalby a geospatial component - we probably show the potential overloads 
 on a map. Keep in mind that our synthetic grid is much smaller than AEP transmission footprint in the Ohio region. 
-Ideally the visualization scales to view issues on 1000's of lines - so some sort of tabular view may be helpful.   
+Ideally the visualization scales to view issues on 1000's of lines - so some sort of tabular view may be helpful.
 
 ### Contingencies (Bonus)
 
@@ -191,7 +255,6 @@ For a set of ambient conditions, you should evaluate the N-1 contingencies. Take
 of service, solve the case, and evaluate the overloads. 
 
 Example output of a N-1 contingencies analysis
-
 ```
 For loss of "ALOHA138 TO HONOLULU138 CKT 1"
 
@@ -209,7 +272,7 @@ Ratings Issues:
 
 Running the contingency analysis requires a powerflow solver. Here are a couple open source options to 
 solve power-flow cases: 
-- [pypsa](https://github.com/PyPSA/PyPSA) - example contingency and case solve included.
+- [PyPSA](https://github.com/PyPSA/PyPSA) - example contingency and case solve included.
 - [matpower](https://matpower.org/) - not tested requires matlab 
 - [pypower](https://github.com/rwl/PYPOWER) - python port of matpower not tested 
 
@@ -219,18 +282,13 @@ applicaiton.
 
 ### Daily Load profiles (Bonus)
 
-Daily Load follows roughly a sine wave with a 6pm peak and 3am valley. Assume ~30% swing from min to max - eg 700 MW min, 1000 MW max.
-Load also changes based on weather. For example, in the summer hotter days have higher load. This project doesn't provide a relationship
-or data between ambient temperature and load - this analysis may ignore the relationship or make a guess like 
-"no load change between 15C - 25C and 1% load increase per degree between 25C - 40C"
+In the actual system, load and gen change throughout the day. For this hackathon you can 
+ignore changes in load throughout the day. 
 
-For this project we've provided 3 load/gen profiles:
-- nominal: origial values from model
-- min: 15% lower than nominal
-- max: 15% higher than nominal
-
-Note that as load scales up and down, the generation must also scale up and down otherwise the the model won't converge and just 
-doesn't make sense. The slack buses in the model allow for small mismatches between load and gen.
+However, if you want to consider load/gen changes through the day stress the
+system see the notebook `hawaii40\pypsa_load_scale.ipynb` to get started. This
+requires using the PyPSA library to changing the model and solve the case with
+each load/generation dispatch change.
 
 ## References
 
@@ -247,4 +305,14 @@ A couple visualization examples:
 
 ## PyPSA notes
 
-PyPSA just released 1.x - many of the docs aren't in great shape yet.
+PyPSA just released 1.x - I recommend using the 1.x release - mostly because the online docs 
+point to this version. It's okay to ignore warnings about the model being created with v0.35.2.
+
+I haven't done any testing with pypower or matpower to solve the powerflow cases. 
+Unless you have prior experience with one of these solvers, I strongly recommend you 
+stay with PyPSA if you tackle the bonus objectives.
+
+Note that you can complete the entire challenge without using the PyPSA library. 
+Solving the model again is only required if you:
+- Take a line out of service
+- Change the load/generation
